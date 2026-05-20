@@ -73,7 +73,7 @@ jobs:
 
       - name: Upload tfsec results to GitHub Security tab
         # github/codeql-action/upload-sarif v3
-        uses: github/codeql-action/upload-sarif@458d36d7d4f47d0dd16ca424c1d3cda0060f1360
+        uses: github/codeql-action/upload-sarif@9e0d7b8d25671d64c341c19c0152d693099fb5ba
         with:
           sarif_file: tfsec.sarif
           category: tfsec
