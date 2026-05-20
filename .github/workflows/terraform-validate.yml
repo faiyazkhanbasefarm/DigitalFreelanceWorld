@@ -1,4 +1,4 @@
-name: Terraform Validate
+name: Terraform Validate & Security Scan
 
 on:
   push:
@@ -12,11 +12,17 @@ on:
       - 'examples/**'
   workflow_dispatch:
 
+# Deny all by default; each job declares only what it needs.
+permissions: {}
+
 jobs:
   validate:
-    name: Validate Terraform
+    name: Validate (${{ matrix.dir }})
     runs-on: ubuntu-latest
+    permissions:
+      contents: read    # checkout only
     strategy:
+      fail-fast: false
       matrix:
         dir:
           - modules/azure_vnet
@@ -27,10 +33,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           terraform_version: "~> 1.7"
 
@@ -45,3 +51,29 @@ jobs:
       - name: Terraform Format Check
         working-directory: ${{ matrix.dir }}
         run: terraform fmt -check -recursive
+
+  security-scan:
+    name: tfsec Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write  # upload SARIF findings to GitHub Security tab
+    needs: validate
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Run tfsec
+        # aquasecurity/tfsec-sarif-action v0.1.4
+        uses: aquasecurity/tfsec-sarif-action@21ded20e8ca120cd9d3d6ab04ef746477542a608
+        with:
+          sarif_file: tfsec.sarif
+          working_directory: .
+
+      - name: Upload tfsec results to GitHub Security tab
+        # github/codeql-action/upload-sarif v3
+        uses: github/codeql-action/upload-sarif@458d36d7d4f47d0dd16ca424c1d3cda0060f1360
+        with:
+          sarif_file: tfsec.sarif
+          category: tfsec

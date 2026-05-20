@@ -1,0 +1,13 @@
+# CODEOWNERS — require maintainer review before any PR can be merged.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# All files — maintainer must review every PR
+*                           @faiyazkhanbasefarm
+
+# Workflows — extra care: changes here affect CI/CD and secrets access
+.github/workflows/          @faiyazkhanbasefarm
+.github/dependabot.yml      @faiyazkhanbasefarm
+
+# Terraform modules — infrastructure changes require owner sign-off
+modules/                    @faiyazkhanbasefarm
+examples/                   @faiyazkhanbasefarm

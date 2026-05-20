@@ -1,0 +1,53 @@
+# Dependabot keeps GitHub Actions and Terraform provider versions up to date.
+# PRs are created automatically; review before merging.
+version: 2
+
+updates:
+  # GitHub Actions – weekly checks
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+    commit-message:
+      prefix: "chore(actions)"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    # Only bump patch/minor – never auto-merge major version bumps
+    groups:
+      actions:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  # Terraform providers – monthly checks
+  - package-ecosystem: "terraform"
+    directory: "/modules/azure_vnet"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(terraform)"
+    labels:
+      - "dependencies"
+      - "terraform"
+
+  - package-ecosystem: "terraform"
+    directory: "/examples/three_tier"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(terraform)"
+    labels:
+      - "dependencies"
+      - "terraform"
+
+  - package-ecosystem: "terraform"
+    directory: "/examples/vnet_example"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(terraform)"
+    labels:
+      - "dependencies"
+      - "terraform"
