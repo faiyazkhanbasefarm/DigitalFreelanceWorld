@@ -1,0 +1,31 @@
+# Secrets & environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Terraform state & secrets
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+.terraform/
+.terraform.lock.hcl
+override.tf
+override.tf.json
+
+# Docker secrets
+docker-compose.override.yml
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
