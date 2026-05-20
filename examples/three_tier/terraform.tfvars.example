@@ -1,0 +1,7 @@
+# Copy this file to terraform.tfvars and fill in real values.
+# terraform.tfvars is listed in .gitignore and must NEVER be committed.
+#
+# Supply via env var instead of a file:
+#   export TF_VAR_mysql_admin_password="YourStrongPassword123!"
+
+mysql_admin_password = "replace-with-strong-password"
